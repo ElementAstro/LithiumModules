@@ -83,7 +83,7 @@ list(APPEND ${PROJECT_NAME}_PRIVATE_HEADERS
 add_library(${PROJECT_NAME}_OBJECT OBJECT)
 set_property(TARGET ${PROJECT_NAME}_OBJECT PROPERTY POSITION_INDEPENDENT_CODE 1)
 
-target_link_libraries(${PROJECT_NAME}_OBJECT loguru lithiumpluginstatic)
+target_link_libraries(${PROJECT_NAME}_OBJECT loguru atomstatic)
 
 target_sources(${PROJECT_NAME}_OBJECT
     PUBLIC

@@ -174,7 +174,7 @@ std::string Dso::get_constellation() const
 std::vector<double> Dso::get_coords() const
 {
     std::vector<double> coords;
-    coords.push_back(std::trunc(rad2deg(_ra) / 15));
+    coords.push_back(std::trunc(rad2deg(m_ra) / 15));
     double ms = (rad2deg(_ra) / 15 - coords[0]) * 60;
     coords.push_back(std::trunc(ms));
     coords.push_back((ms - coords[1]) * 60);

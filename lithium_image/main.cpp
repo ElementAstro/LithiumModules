@@ -41,7 +41,7 @@ Description: Image processing plugin main
 
 std::shared_ptr<ImageProcessingPlugin> GetInstance()
 {
-    return std::make_shared<ImageProcessingPlugin>("lithium_image", "1.0.0", "Max Qian", "Image processing plugin");
+    return std::make_shared<ImageProcessingPlugin>();
 }
 
 json GetInfo()

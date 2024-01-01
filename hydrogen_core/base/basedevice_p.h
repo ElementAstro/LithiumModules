@@ -18,7 +18,7 @@
 
 #pragma once
 
-#include "util/macro.hpp"
+#include "../util/macro.hpp"
 #include "basedevice.h"
 #include "lilxml.hpp"
 #include "hydrogenbase.h"

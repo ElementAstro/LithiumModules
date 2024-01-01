@@ -23,7 +23,7 @@
 #include "config.h"
 #include "hydrogencom.hpp"
 #include "hydrogenstandardproperty.h"
-#include "locale/locale_compat.hpp"
+#include "../locale/locale_compat.hpp"
 
 #include "hydrogenpropertytext.h"
 #include "hydrogenpropertynumber.h"

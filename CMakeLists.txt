@@ -4,7 +4,7 @@ project(lithium_modules C CXX)
 
 add_subdirectory(lithium_image)
 
-add_subdirectory(lithium_search)
+# add_subdirectory(lithium_search)
 
 add_subdirectory(hydrogen_core)
 

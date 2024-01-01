@@ -19,7 +19,7 @@
 #pragma once
 
 #include "hydrogenproperty.h"
-#include "util/macro.hpp"
+#include "../util/macro.hpp"
 #include <algorithm>
 
 namespace HYDROGEN

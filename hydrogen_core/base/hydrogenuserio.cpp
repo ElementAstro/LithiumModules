@@ -19,7 +19,7 @@
 #include "hydrogenapi.h"
 #include "hydrogendevapi.hpp"
 #include "hydrogencom.hpp"
-#include "locale/locale_compat.hpp"
+#include "../locale/locale_compat.hpp"
 #include "base64.hpp"
 
 #include <stdlib.h>

@@ -1,6 +1,6 @@
 #include "hydrogendevapi.hpp"
 #include "hydrogencom.hpp"
-#include "locale/locale_compat.hpp"
+#include "../locale/locale_compat.hpp"
 #include "base64.hpp"
 #include "userio.hpp"
 #include "hydrogenuserio.hpp"

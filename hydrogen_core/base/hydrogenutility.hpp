@@ -28,7 +28,7 @@
 #include <sys/stat.h>
 #include <ctime>
 
-#include "util/macro.hpp"
+#include "../util/macro.hpp"
 #else
 #include <string.h>
 #endif

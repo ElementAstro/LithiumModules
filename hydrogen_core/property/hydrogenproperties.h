@@ -18,7 +18,7 @@
 #pragma once
 
 #include "hydrogenproperty.h"
-#include "util/macro.hpp"
+#include "../util/macro.hpp"
 #include <vector>
 #include <deque>
 #include <algorithm>

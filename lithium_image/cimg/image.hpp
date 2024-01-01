@@ -31,16 +31,16 @@ Description: Image processing plugin for Lithium
 
 #pragma once
 
-#include "core/plugin/plugin.hpp"
+#include "atom/components/component.hpp"
 #include "cimg/CImg.h"
 #include <fitsio.h>
 
 using namespace cimg_library;
 
-class ImageProcessingPlugin : public Plugin
+class ImageProcessingPlugin : public Component
 {
 public:
-    ImageProcessingPlugin(const std::string &path, const std::string &version, const std::string &author, const std::string &description);
+    ImageProcessingPlugin();
 
     void Blur(const json &params);
 

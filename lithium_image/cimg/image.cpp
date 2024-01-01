@@ -36,8 +36,8 @@ Description: Image processing plugin for Lithium
 
 #include "atom/log/loguru.hpp"
 
-ImageProcessingPlugin::ImageProcessingPlugin(const std::string &path, const std::string &version, const std::string &author, const std::string &description)
-    : Plugin(path, version, author, description)
+ImageProcessingPlugin::ImageProcessingPlugin()
+    : Component()
 {
     // 在构造函数中注册图像处理函数
     RegisterFunc("blur", &ImageProcessingPlugin::Blur, this);

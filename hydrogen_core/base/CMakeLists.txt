@@ -4,6 +4,8 @@ project(hydrogencore C CXX)
 find_package(Nova)
 add_library(${PROJECT_NAME} OBJECT "")
 
+include_directories(../property)
+
 include(CPack)
 
 set(CMAKE_CXX_STANDARD 20)
