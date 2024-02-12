@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.20)
 
 project(lithium_modules C CXX)
 
+set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/")
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake_modules/")
+
 add_subdirectory(lithium_image)
 
 # add_subdirectory(lithium_search)
