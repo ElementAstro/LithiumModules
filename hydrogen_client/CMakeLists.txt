@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
 project(hydrogenclient CXX)
 
-include_directories(${CMAKE_SOURCE_DIR}/src/)
-include_directories(${CMAKE_SOURCE_DIR}/src/core)
-include_directories(${CMAKE_SOURCE_DIR}/src/core/base)
-include_directories(${CMAKE_SOURCE_DIR}/src/core/io)
-include_directories(${CMAKE_SOURCE_DIR}/src/core/property)
-include_directories(${CMAKE_SOURCE_DIR}/src/core/timer)
-include_directories(${CMAKE_SOURCE_DIR}/src/core/thread)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/socket)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../hydrogen_core)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../hydrogen_core/property)
 
 include_directories(socket)
 add_subdirectory(socket)

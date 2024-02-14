@@ -4,7 +4,7 @@ project(hydrogencore C CXX)
 find_package(Nova)
 add_library(${PROJECT_NAME} OBJECT "")
 
-include_directories(../property)
+include_directories("../property")
 
 include(CPack)
 

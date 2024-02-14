@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.20)
 project(lithium_image C CXX)
 
+include(CheckIncludeFileCXX)
+
 option(ENABLE_DEBUG "Enable Debug Mode" OFF)
 if(ENABLE_DEBUG)
     set(ENABLE_DEBUG_FLAG "1")
@@ -28,7 +30,7 @@ endif()
 configure_file(config.h.in ${CMAKE_CURRENT_BINARY_DIR}/config.h)
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
-CHECK_INCLUDE_FILE(format HAS_STD_FORMAT)
+CHECK_INCLUDE_FILE_CXX(format HAS_STD_FORMAT)
 
 if(NOT HAS_STD_FORMAT)
     find_package(fmt REQUIRED)

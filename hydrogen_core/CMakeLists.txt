@@ -5,11 +5,13 @@ find_package(Threads REQUIRED)
 
 add_subdirectory(base)
 
-include_directories(.)
-include_directories(base)
-include_directories(property)
-include_directories(util)
-include_directories(locale)
+include_directories(${CMAKE_BINARY_DIR})
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/base)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/property)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/util)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/locale)
 
 # Sources
 list(APPEND ${PROJECT_NAME}_SOURCES

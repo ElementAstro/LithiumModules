@@ -20,7 +20,6 @@
 #include "basedevice_p.h"
 
 #include "base64.hpp"
-#include "config.h"
 #include "hydrogencom.hpp"
 #include "hydrogenstandardproperty.h"
 #include "../locale/locale_compat.hpp"

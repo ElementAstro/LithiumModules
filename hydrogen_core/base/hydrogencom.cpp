@@ -31,8 +31,6 @@
 #include "../locale/locale_compat.hpp"
 #include "base64.hpp"
 
-#include "config.h"
-
 #if defined(HAVE_LIBNOVA)
 #include <libnova/julian_day.h>
 #include <libnova/sidereal_time.h>
