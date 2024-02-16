@@ -22,14 +22,7 @@ Description: Image processing plugin for Lithium
 #include "atom/type/json.hpp"
 using json = nlohmann::json;
 
-namespace cimg_library {
-
-  // Declare the four classes of the CImg Library.
-  template<typename T=float> struct CImg;
-  template<typename T=float> struct CImgList;
-  struct CImgDisplay;
-  struct CImgException;
-}
+#include "cimg/CImg.h"
 
 class ImageProcessingPlugin : public SharedComponent
 {

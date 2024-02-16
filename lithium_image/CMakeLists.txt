@@ -59,6 +59,7 @@ if(ENABLE_OPENCV_FLAG)
 endif()
 
 if(ENABLE_CIMG_FLAG)
+    find_package(GSL REQUIRED)
     list(APPEND ${PROJECT_NAME}_SOURCES
         cimg/image.cpp
         cimg/draw.cpp
@@ -99,19 +100,21 @@ target_sources(${PROJECT_NAME}_OBJECT
 
 target_link_libraries(${PROJECT_NAME}_OBJECT ${${PROJECT_NAME}_LIBS})
 
-add_library(${PROJECT_NAME}static STATIC)
+add_library(${PROJECT_NAME} STATIC)
 
-target_link_libraries(${PROJECT_NAME}static ${PROJECT_NAME}_OBJECT ${${PROJECT_NAME}_LIBS})
-target_link_libraries(${PROJECT_NAME}static ${CMAKE_THREAD_LIBS_INIT})
-target_include_directories(${PROJECT_NAME}static PUBLIC .)
-
-set_target_properties(${PROJECT_NAME}static PROPERTIES
+target_link_libraries(${PROJECT_NAME} ${PROJECT_NAME}_OBJECT ${${PROJECT_NAME}_LIBS})
+target_link_libraries(${PROJECT_NAME} ${CMAKE_THREAD_LIBS_INIT})
+target_include_directories(${PROJECT_NAME} PUBLIC .)
+if (ENABLE_CIMG_FLAG)
+target_link_libraries(${PROJECT_NAME} GSL::gsl CCfits ${CFITSIO_LIBRARIES})
+endif()
+set_target_properties(${PROJECT_NAME} PROPERTIES
     VERSION ${CMAKE_HYDROGEN_VERSION_STRING}
     SOVERSION ${HYDROGEN_SOVERSION}
-    OUTPUT_NAME ${PROJECT_NAME} # this same name like shared library - backwards compatibility
+    OUTPUT_NAME ${PROJECT_NAME}
 )
 
-install(TARGETS ${PROJECT_NAME}static
+install(TARGETS ${PROJECT_NAME}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
 
@@ -120,10 +123,13 @@ add_library(${PROJECT_NAME}shared SHARED)
 target_link_libraries(${PROJECT_NAME}shared ${PROJECT_NAME}_OBJECT ${${PROJECT_NAME}_LIBS})
 target_link_libraries(${PROJECT_NAME}shared ${CMAKE_THREAD_LIBS_INIT})
 target_include_directories(${PROJECT_NAME}shared PUBLIC .)
+if (ENABLE_CIMG_FLAG)
+target_link_libraries(${PROJECT_NAME}shared GSL::gsl CCfits ${CFITSIO_LIBRARIES})
+endif()
 set_target_properties(${PROJECT_NAME}shared PROPERTIES
     VERSION ${CMAKE_HYDROGEN_VERSION_STRING}
     SOVERSION ${HYDROGEN_SOVERSION}
-    OUTPUT_NAME ${PROJECT_NAME} # this same name like shared library - backwards compatibility
+    OUTPUT_NAME ${PROJECT_NAME}
 )
 install(TARGETS ${PROJECT_NAME}shared
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}

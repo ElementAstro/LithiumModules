@@ -129,8 +129,6 @@ bool drawStarImage(const std::string &filename, int &star_index, double &total_h
 
     json ret;
 
-    double total_hfd;
-
     // Read file to CImg
     try
     {

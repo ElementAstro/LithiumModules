@@ -18,15 +18,17 @@ Description: Image processing plugin for Lithium
 #include <fstream>
 #include <sstream>
 
+#define TBYTE TBYTE_T
 #include <CCfits/CCfits>
-#include "cimg/CImg.h"
+#undef TBYTE
+
 
 #include "atom/algorithm/base64.hpp"
 #include "atom/log/loguru.hpp"
 
 ImageProcessingPlugin::ImageProcessingPlugin()
 {
-    m_cache = std::make_unique<ResourceCache<std::shared_ptr<cimg_library::CImg<float>>>>();
+    m_cache = std::make_unique<ResourceCache<std::shared_ptr<cimg_library::CImg<float>>>>(100);
     LOG_F(INFO, "ImageProcessingPlugin()");
     RegisterFunc("drawStarImage", &ImageProcessingPlugin::_drawStarImage, this);
 }
@@ -64,9 +66,13 @@ json ImageProcessingPlugin::_drawStarImage(const json &params)
     if (!drawStarImage(filename, star_index, total_hfd, is_save, is_plot))
     {
         LOG_F(ERROR, "Failed to draw star image");
-        return;
+        result["error"] = "Failed to draw star image";
+        return result;
     }
     LOG_F(INFO, "Star index: {}, HFD: {}", star_index, total_hfd);
+    result["star_index"] = star_index;
+    result["total_hfd"] = total_hfd;
+    return result;
 }
 
 void ImageProcessingPlugin::readFile(const std::string &key, const std::string &filename, long *outBitPix = 0)
@@ -91,8 +97,9 @@ void ImageProcessingPlugin::readFile(const std::string &key, const std::string &
 
     // Load into cache
     // The image should be processed successfully within 120 seconds
-    m_cache.insert(key, inImg, std::chrono::seconds(120));
-}->
+    m_cache->insert(key, inImg, std::chrono::seconds(120));
+}
+
 void ImageProcessingPlugin::writeFile(const std::string &key, const string &filename)
 {
     if (key.empty() || filename.empty())
@@ -122,7 +129,7 @@ void ImageProcessingPlugin::writeFile(const std::string &key, const string &file
 bool ImageProcessingPlugin::readImage(const std::string &key, const std::string &filename)
 {
     if (key.empty() || filename.empty())
-        return;
+        return false;
     if (std::ifstream(filename))
     {
         std::shared_ptr<cimg_library::CImg<float>> img = std::make_shared<cimg_library::CImg<float>>();
@@ -154,7 +161,7 @@ bool ImageProcessingPlugin::readImage(const std::string &key, const std::string 
 bool ImageProcessingPlugin::readColorImage(const std::string &key, const std::string &filename)
 {
     if (key.empty() || filename.empty())
-        return;
+        return false;
     if (std::ifstream(filename))
     {
         std::shared_ptr<cimg_library::CImg<float>> img = std::make_shared<cimg_library::CImg<float>>();
@@ -190,7 +197,7 @@ bool ImageProcessingPlugin::readColorImage(const std::string &key, const std::st
 bool ImageProcessingPlugin::saveImage(const std::string &key, const std::string &filename)
 {
     if (key.empty() || filename.empty())
-        return;
+        return false;
     try
     {
         std::shared_ptr<cimg_library::CImg<float>> img = m_cache->get(key);
@@ -230,6 +237,7 @@ std::string ImageProcessingPlugin::imageToBase64(const std::string &key)
         LOG_F(ERROR, "Error convert image to base64: {}", e.what());
         return "";
     }
+    return "";
 }
 
 void ImageProcessingPlugin::base64ToImage(const std::string &key, const std::string &img)
@@ -275,6 +283,7 @@ bool ImageProcessingPlugin::calcDarkNoise(const std::string &key, float &average
     }
     sigma_dark = sqrt(sigma_dark / (dark_img.width() * dark_img.height()));
     sigma_readout = sqrt(sigma_readout / (2 * (dark_img.width() - 1) * dark_img.height() + 2 * dark_img.width() * (dark_img.height() - 1)));
+    return true;
 }
 
 bool ImageProcessingPlugin::detectStars(const std::string &key, int threshold, int max_radius)

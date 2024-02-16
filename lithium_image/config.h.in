@@ -1,3 +1,17 @@
+/*
+ * config.h.in
+ *
+ * Copyright (C) 2023-2024 Max Qian <lightapt.com>
+ */
+
+/*************************************************
+
+Date: 2023-12-1
+
+Description: Configuration file
+
+**************************************************/
+
 #cmakedefine01 ENABLE_OPENCV
 #cmakedefine01 ENABLE_CIMG
 #cmakedefine01 ENABLE_STB
