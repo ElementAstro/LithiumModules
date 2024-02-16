@@ -2,17 +2,6 @@
  * image.hpp
  *
  * Copyright (C) 2023-2024 Max Qian <lightapt.com>
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
 /*************************************************
@@ -23,59 +12,67 @@ Description: Image processing plugin for Lithium
 
 **************************************************/
 
-#pragma once
+#ifndef LITHIUM_IMAGE_CIMG_IMAGE_HPP
+#define LITHIUM_IMAGE_CIMG_IMAGE_HPP
 
-#include "atom/components/component.hpp"
-#include "cimg/CImg.h"
-#include <fitsio.h>
+#include "atom/components/templates/shared_component.hpp"
 
-using namespace cimg_library;
+#include "atom/search/cache.hpp"
 
-class ImageProcessingPlugin : public Component
+#include "atom/type/json.hpp"
+using json = nlohmann::json;
+
+namespace cimg_library {
+
+  // Declare the four classes of the CImg Library.
+  template<typename T=float> struct CImg;
+  template<typename T=float> struct CImgList;
+  struct CImgDisplay;
+  struct CImgException;
+}
+
+class ImageProcessingPlugin : public SharedComponent
 {
 public:
     ImageProcessingPlugin();
 
-    void Blur(const json &params);
+    ~ImageProcessingPlugin();
 
-    void Rotate(const json &params);
+    static std::shared_ptr<ImageProcessingPlugin> createShared();
 
-    void Crop(const json &params);
-
-    void Sharpen(const json &params);
-
-    void WhiteBalance(const json &params);
-
-    void Resize(const json &params);
-
-    void ImageToBase64(const json &params);
-
-    void Base64ToImage(const json &params);
+    json _drawStarImage(const json &params);
 
 private:
-    double calc_hfd(const CImg<unsigned char> &img, int outer_diameter);
 
-    void calc_dark_noise(const CImg<unsigned char> &dark_img, float &average_dark, float &sigma_dark, float &sigma_readout);
+    void readFile(const std::string &key,const std::string &filename, long *outBitPix);
 
-    void detect_stars(const char *filename, int threshold, int max_radius);
+    void writeFile(const std::string &key, const std::string &filename);
 
-    void compress_image(CImg<unsigned char> &img, int compress_ratio);
-    CImg<unsigned char> read_image(const char *filename);
+    bool readImage(const std::string &key, const std::string &filename);
 
-    bool read_color_image(const char *filename, CImg<unsigned char> &image);
+    bool readColorImage(const std::string &key, const std::string &filename);
 
-    bool convert_fits_to_cimg(fitsfile *fits_image, CImg<unsigned char> &cimg_image);
+    bool saveImage(const std::string &key, const std::string &filename);
 
-    bool read_fits_image(const char *filename, CImg<unsigned char> &image);
+    std::string imageToBase64(const std::string &key);
 
-    bool save_image(const CImg<unsigned char> &image, const char *filename);
+    void base64ToImage(const std::string &key, const std::string &img);
 
-    void overlay_image(CImg<unsigned char> &img1, const CImg<unsigned char> &img2);
+    bool calcDarkNoise(const std::string &key, float &average_dark, float &sigma_dark, float &sigma_readout);
 
-    void computeHistogram(const char *filename, int *hist, int nbins);
+    bool detectStars(const std::string &key, int threshold, int max_radius);
 
-    void displayHistogram(const int *hist, int nbins);
+    bool whiteBalance(const std::string &key);
+
+    void blur(const std::string &key, const std::string& mode, float param);
+
+    void crop(const std::string &key, const int &x, const int &y, const int &w, const int &h);
+
+    void compressImage(const std::string& key, int compress_ratio);
 
 private:
-    mutable std::unordered_map<std::string, CImg<unsigned char>> imageCache;
+    // Image cache in memory
+    mutable std::unique_ptr<ResourceCache<std::shared_ptr<cimg_library::CImg<float>>>> m_cache;
 };
+
+#endif

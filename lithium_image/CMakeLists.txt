@@ -37,7 +37,7 @@ if(NOT HAS_STD_FORMAT)
 endif()
 
 list(APPEND ${PROJECT_NAME}_LIBS
-    lithiumpluginstatic
+    atom-component
     loguru
     ${CFITSIO_LIBRARIES}
 )
@@ -61,6 +61,8 @@ endif()
 if(ENABLE_CIMG_FLAG)
     list(APPEND ${PROJECT_NAME}_SOURCES
         cimg/image.cpp
+        cimg/draw.cpp
+        cimg/gaussian.cpp
     )
 endif()
 

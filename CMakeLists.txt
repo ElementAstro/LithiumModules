@@ -9,7 +9,7 @@ LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake_modules/")
 
 include(CheckIncludeFileCXX)
 
-# add_subdirectory(lithium_image)
+add_subdirectory(lithium_image)
 
 # add_subdirectory(lithium_search)
 
